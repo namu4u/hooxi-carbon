@@ -84,7 +84,7 @@ export default function DiagnosisStep1() {
 
       <h1 className="text-xl font-bold text-foreground mb-1">업종 및 설비 정보</h1>
       <p className="text-sm text-muted-foreground mb-7">
-        KCU 발급 가능 여부와 예상 수익을 계산합니다
+        KOC 발급 가능 여부와 예상 수익을 계산합니다
       </p>
 
       <form onSubmit={onSubmit} noValidate className="space-y-7">
@@ -197,7 +197,7 @@ export default function DiagnosisStep1() {
             />
           </Field>
           <p className="text-xs text-muted-foreground mt-1.5">
-            2021년 이후 도입 설비만 KCU 발급 대상입니다
+            2021년 이후 도입 설비만 KOC 발급 대상입니다
           </p>
         </div>
 

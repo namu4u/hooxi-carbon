@@ -23,7 +23,7 @@ const STATS = [
   { value: "₩0",    label: "선비용",      sub: "성공 후 수수료" },
   { value: "20%",   label: "성과 수수료", sub: "판매 대금 기준" },
   { value: "최대 5년", label: "소급 적용", sub: "2021년부터" },
-  { value: "16,000", label: "KCU 시장가", sub: "원/tCO₂ (25년)" },
+  { value: "16,000", label: "KOC 시장가", sub: "원/tCO₂ (25년)" },
 ] as const;
 
 const STEPS = [
@@ -32,7 +32,7 @@ const STEPS = [
     step: "01",
     tag: "30초 완료",
     title: "무료 진단",
-    desc: "업종·설비를 선택하면 예상 KCU 물량과 고객 순수익을 즉시 계산합니다. 개인정보 불필요.",
+    desc: "업종·설비를 선택하면 예상 KOC 물량과 고객 순수익을 즉시 계산합니다. 개인정보 불필요.",
   },
   {
     icon: <ShieldCheckIcon className="w-5 h-5" />,
@@ -45,8 +45,8 @@ const STEPS = [
     icon: <TrendingUpIcon className="w-5 h-5" />,
     step: "03",
     tag: "판매 대금 80%",
-    title: "KCU 발급 및 수익 정산",
-    desc: "환경부 심사·승인 후 KCU를 시장에 매각합니다. 판매 대금의 80%를 사업주가 수령합니다.",
+    title: "KOC 발급 및 수익 정산",
+    desc: "환경부 심사·승인 후 KOC를 시장에 매각합니다. 판매 대금의 80%를 사업주가 수령합니다.",
   },
 ] as const;
 
@@ -61,19 +61,19 @@ const EQUIPMENT = [
 
 const FAQ_ITEMS = [
   {
-    q: "KCU(한국형 탄소배출권)가 무엇인가요?",
-    a: "KCU(Korean Carbon Unit)는 에너지 효율화 설비를 도입해 온실가스를 줄인 기업에 환경부가 발급하는 탄소배출권입니다. 발급된 KCU는 배출권 거래소에서 매각해 현금 수익을 실현할 수 있습니다.",
+    q: "KOC(한국형 탄소상쇄크레딧)가 무엇인가요?",
+    a: "KOC(Korea Offset Credit)는 에너지 효율화 설비를 도입해 온실가스를 줄인 기업에 환경부가 발급하는 탄소상쇄크레딧입니다. 발급된 KOC는 배출권 거래소에서 매각해 현금 수익을 실현할 수 있습니다.",
   },
   {
     q: "선비용 0원이 어떻게 가능한가요?",
-    a: "후시파트너스는 서류 준비·현장 검증·환경부 접수 등 전 과정을 대행하며 선투자합니다. KCU 판매에 성공한 후에만 판매 대금의 20%를 수수료로 수취하므로, 고객의 초기 비용은 0원입니다.",
+    a: "후시파트너스는 서류 준비·현장 검증·환경부 접수 등 전 과정을 대행하며 선투자합니다. KOC 판매에 성공한 후에만 판매 대금의 20%를 수수료로 수취하므로, 고객의 초기 비용은 0원입니다.",
   },
   {
-    q: "어떤 설비가 KCU 발급 대상인가요?",
+    q: "어떤 설비가 KOC 발급 대상인가요?",
     a: "2021년 이후 도입한 ▲LED 조명 ▲인버터 모터 ▲고효율 보일러 ▲냉난방 효율화 설비 ▲전기지게차가 주요 대상입니다. 업종별로 적용 가능한 설비가 다르므로 30초 무료 진단으로 먼저 확인하세요.",
   },
   {
-    q: "KCU를 받기까지 얼마나 걸리나요?",
+    q: "KOC를 받기까지 얼마나 걸리나요?",
     a: "계약 체결 후 현장 검증 → 환경부 제출 → 심사를 거쳐 통상 4~9개월이 소요됩니다. 이 기간 동안 모든 행정 절차는 후시파트너스가 전담합니다.",
   },
   {
@@ -122,7 +122,7 @@ export default function LandingPage() {
 
         <p className="text-sm leading-relaxed opacity-90 mb-2">
           2021년 이후 교체한 LED·인버터·보일러…<br />
-          이미 투자한 설비로 <strong>KCU 판매 수익</strong>을 받을 수 있습니다.
+          이미 투자한 설비로 <strong>KOC 판매 수익</strong>을 받을 수 있습니다.
         </p>
 
         {/* 뱃지 */}
@@ -242,7 +242,7 @@ export default function LandingPage() {
           <div>
             <p className="text-sm font-semibold text-amber-900">신청 가능 기간을 확인하세요</p>
             <p className="text-xs text-amber-800 mt-1 leading-relaxed">
-              KCU는 설치 후 <strong>최대 5년</strong> 이내만 신청 가능합니다.
+              KOC는 설치 후 <strong>최대 5년</strong> 이내만 신청 가능합니다.
               2021년 설치 설비는 <strong>2026년이 마감</strong>입니다. 지금 바로 확인하세요.
             </p>
             <Link
@@ -267,7 +267,7 @@ export default function LandingPage() {
             {
               icon: <ShieldCheckIcon className="w-5 h-5 text-primary" />,
               title: "완전 성과 보수제",
-              desc: "KCU 판매 대금 수령 후 20% 수수료. 발급 실패 시 0원.",
+              desc: "KOC 판매 대금 수령 후 20% 수수료. 발급 실패 시 0원.",
             },
             {
               icon: <ZapIcon className="w-5 h-5 text-primary" />,
@@ -282,7 +282,7 @@ export default function LandingPage() {
             {
               icon: <TrendingUpIcon className="w-5 h-5 text-primary" />,
               title: "최적 매각 타이밍",
-              desc: "KCU 시장가를 모니터링해 최적 시점에 매각, 수익 극대화.",
+              desc: "KOC 시장가를 모니터링해 최적 시점에 매각, 수익 극대화.",
             },
           ].map(({ icon, title, desc }) => (
             <div key={title} className="flex gap-3 items-start bg-white rounded-2xl p-4 shadow-sm">

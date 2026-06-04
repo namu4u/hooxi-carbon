@@ -23,9 +23,9 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 const KCU_HISTORY_OPTIONS = [
-  { value: "none",    label: "없음",           desc: "KCU 신청 이력이 없습니다" },
+  { value: "none",    label: "없음",           desc: "KOC 신청 이력이 없습니다" },
   { value: "partial", label: "일부 신청",       desc: "일부 설비만 신청한 이력이 있습니다" },
-  { value: "all",     label: "전부 신청 완료",  desc: "모든 설비가 이미 KCU에 등록됐습니다" },
+  { value: "all",     label: "전부 신청 완료",  desc: "모든 설비가 이미 KOC에 등록됐습니다" },
 ] as const;
 
 const ETS_OPTIONS = [
@@ -139,10 +139,10 @@ export default function DiagnosisStep2() {
         {/* KCU 신청 이력 */}
         <div>
           <label className="block text-sm font-medium text-foreground mb-1">
-            KCU(탄소배출권) 신청 이력 <span className="text-destructive">*</span>
+            KOC(탄소상쇄크레딧) 신청 이력 <span className="text-destructive">*</span>
           </label>
           <p className="text-xs text-muted-foreground mb-3">
-            이전에 KCU를 신청하거나 발급받은 이력이 있나요?
+            이전에 KOC를 신청하거나 발급받은 이력이 있나요?
           </p>
           <Controller
             name="kcuHistory"

@@ -49,7 +49,7 @@ export default function ResultPage() {
         <div className="flex flex-col items-center text-center py-10 gap-4">
           <XCircleIcon className="w-16 h-16 text-destructive" />
           <div>
-            <h2 className="text-xl font-bold text-foreground">KCU 발급 대상이 아닙니다</h2>
+            <h2 className="text-xl font-bold text-foreground">KOC 발급 대상이 아닙니다</h2>
             <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{result.reason}</p>
           </div>
           <button
@@ -88,7 +88,7 @@ export default function ResultPage() {
               {step1.installYear}년 설치 — 신청 가능 기간이 얼마 남지 않았습니다!
             </p>
             <p className="text-xs text-amber-700 mt-0.5">
-              KCU 발급 가능 기간은 최대 5년입니다. 2026년까지 {yearsLeft}년 남았습니다.
+              KOC 발급 가능 기간은 최대 5년입니다. 2026년까지 {yearsLeft}년 남았습니다.
               지금 바로 신청하세요.
             </p>
           </div>
@@ -110,8 +110,8 @@ export default function ResultPage() {
         </p>
 
         <div className="mt-5 pt-4 border-t border-white/20 grid grid-cols-2 gap-3">
-          <Stat label="예상 KCU 물량"      value={`${formatNumber(Math.round(kcuVol))} tCO₂`} />
-          <Stat label="KCU 판매 총액"       value={formatKRW(grossValue)} />
+          <Stat label="예상 KOC 물량"      value={`${formatNumber(Math.round(kcuVol))} tCO₂`} />
+          <Stat label="KOC 판매 총액"       value={formatKRW(grossValue)} />
           <Stat label="후시 수수료(20%)"    value={formatKRW(result.fee_amount ?? 0)} />
           <Stat label="적격 기간"           value={`${result.eligible_years ?? 0}년`} />
         </div>
@@ -119,7 +119,7 @@ export default function ResultPage() {
 
       {/* ── 적격 설비 태그 ────────────────────────────────────────────── */}
       <div className="mb-5">
-        <h3 className="text-sm font-semibold text-foreground mb-2">KCU 적격 설비</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-2">KOC 적격 설비</h3>
         <div className="flex flex-wrap gap-2">
           {step1.equipCodes.map((code) => (
             <span
@@ -136,13 +136,13 @@ export default function ResultPage() {
       {/* ── 설비별 내역 테이블 ────────────────────────────────────────── */}
       {(result.breakdown?.length ?? 0) > 0 && (
         <div className="mb-5">
-          <h3 className="text-sm font-semibold text-foreground mb-2">설비별 KCU 내역</h3>
+          <h3 className="text-sm font-semibold text-foreground mb-2">설비별 KOC 내역</h3>
           <div className="border border-border rounded-xl overflow-hidden">
             <table className="w-full text-sm">
               <thead className="bg-muted">
                 <tr>
                   <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">설비</th>
-                  <th className="text-right px-4 py-3 text-xs font-medium text-muted-foreground">예상 KCU(tCO₂)</th>
+                  <th className="text-right px-4 py-3 text-xs font-medium text-muted-foreground">예상 KOC(tCO₂)</th>
                 </tr>
               </thead>
               <tbody>
@@ -166,7 +166,7 @@ export default function ResultPage() {
       <div className="flex items-start gap-2 p-3.5 bg-muted rounded-xl mb-8 text-xs text-muted-foreground">
         <InfoIcon className="w-4 h-4 flex-shrink-0 mt-0.5" />
         <div className="space-y-1">
-          <p>KCU 시장가 기준: {formatKRW(result.kcu_price_ref ?? 16000)}/tCO₂ ({PRICE_BASE_DATE})</p>
+          <p>KOC 시장가 기준: {formatKRW(result.kcu_price_ref ?? 16000)}/tCO₂ ({PRICE_BASE_DATE})</p>
           <p>예상 수익은 참고용이며, 실제 발급량·정산 금액은 환경부 심사 결과에 따라 달라질 수 있습니다.</p>
           {result.is_multi_equip && (
             <p>복수 설비 적용 시 중복 감산(×0.88)이 적용됩니다.</p>

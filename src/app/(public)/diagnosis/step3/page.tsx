@@ -145,7 +145,7 @@ export default function DiagnosisStep3() {
             <span className="text-sm font-semibold text-foreground">결과 리포트 발송 완료</span>
           </div>
           <p className="text-xs text-muted-foreground leading-relaxed">
-            입력하신 이메일로 상세 KCU 진단 결과와 다음 절차 안내 메일이 발송됐습니다.
+            입력하신 이메일로 상세 KOC 진단 결과와 다음 절차 안내 메일이 발송됐습니다.
             스팸함도 확인해주세요.
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function DiagnosisStep3() {
             { step: "01", label: "컨설턴트 초기 미팅",   sub: "서비스 범위·조건 상세 협의" },
             { step: "02", label: "위임 계약 체결",        sub: "디지털 서명, 선비용 0원" },
             { step: "03", label: "서류·현장 검증",        sub: "후시파트너스가 전담 처리" },
-            { step: "04", label: "KCU 발급 및 판매",      sub: "환경부 승인 후 시장 매각" },
+            { step: "04", label: "KOC 발급 및 판매",      sub: "환경부 승인 후 시장 매각" },
             { step: "05", label: "수익 정산",             sub: "판매 대금의 80% 지급" },
           ].map(({ step, label, sub }) => (
             <div key={step} className="flex gap-3">
@@ -311,7 +311,7 @@ export default function DiagnosisStep3() {
               <span className="font-medium">[필수] 개인정보 수집·이용 동의</span>
               <br />
               <span className="text-xs text-muted-foreground">
-                수집 항목: 회사명, 담당자명, 이메일, 연락처 / 이용 목적: KCU 진단 서비스 제공 및 연락
+                수집 항목: 회사명, 담당자명, 이메일, 연락처 / 이용 목적: KOC 진단 서비스 제공 및 연락
               </span>
             </span>
           </label>

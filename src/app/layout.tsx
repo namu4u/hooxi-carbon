@@ -6,7 +6,7 @@ const geistSans = Geist({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
   title: "숨은 탄소배출권 찾기 | 후시파트너스",
-  description: "선비용 0원, 성과 수수료 20%. 내 사업장의 숨은 KCU를 찾아드립니다.",
+  description: "선비용 0원, 성과 수수료 20%. 내 사업장의 숨은 KOC를 찾아드립니다.",
   openGraph: {
     title: "숨은 탄소배출권 찾기 | 후시파트너스",
     description: "선비용 0원, 성과 수수료 20%",
