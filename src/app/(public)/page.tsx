@@ -373,10 +373,15 @@ export default function LandingPage() {
           FOOTER
       ══════════════════════════════════════════════════════════════════ */}
       <footer className="-mx-4 px-4 pt-8 pb-28 border-t-2 border-[#55b4a5]/30 bg-white">
-        {/* 브랜드 로고 */}
+        {/* 후시파트너스 로고 */}
         <div className="mb-5">
-          <span className="font-bold text-gray-900">탄소잇</span>
-          <span className="text-xs text-gray-400 ml-1">by 후시파트너스</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/hooxi_logo_dark.svg"
+            alt="HOOXI Partners"
+            width={88}
+            height={38}
+          />
         </div>
 
         {/* 연락처 */}
