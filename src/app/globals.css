@@ -1,26 +1,38 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* 브랜드 컬러: 후시파트너스 그린 계열 */
+  --color-primary: #16a34a;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #dcfce7;
+  --color-secondary-foreground: #14532d;
+  --color-accent: #22c55e;
+  --color-accent-foreground: #ffffff;
+
+  --color-background: #ffffff;
+  --color-foreground: #0f172a;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-border: #e2e8f0;
+  --color-ring: #16a34a;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #0f172a;
+
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #ffffff;
+
+  /* 모바일 우선: 기본 max-width */
+  --max-width-mobile: 390px;
+
+  --font-sans: var(--font-sans);
+  --radius: 0.75rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* 모바일 컨테이너 기본 레이아웃 */
+.mobile-container {
+  width: 100%;
+  max-width: var(--max-width-mobile);
+  margin-inline: auto;
+  padding-inline: 1rem;
 }
