@@ -19,8 +19,8 @@ import { useDiagnosis, type CalcResult } from "@/hooks/useDiagnosis";
 import { EQUIP_LABEL } from "@/lib/diagnosis-data";
 import { formatKRW, formatNumber } from "@/lib/utils";
 
-// ── KCU 시장가 기준일 (표시용) ───────────────────────────────────────────────
-const PRICE_BASE_DATE = "2025년 12월 31일";
+// ── KOC 참고가 기준일 (표시용) ───────────────────────────────────────────────
+const PRICE_BASE_DATE = "2026년 6월 기준";
 const URGENT_YEAR_CUTOFF = 2022;  // install_year <= 이 값이면 긴급 배너
 
 export default function ResultPage() {
@@ -166,8 +166,8 @@ export default function ResultPage() {
       <div className="flex items-start gap-2 p-3.5 bg-muted rounded-xl mb-8 text-xs text-muted-foreground">
         <InfoIcon className="w-4 h-4 flex-shrink-0 mt-0.5" />
         <div className="space-y-1">
-          <p>KOC 시장가 기준: {formatKRW(result.kcu_price_ref ?? 16000)}/tCO₂ ({PRICE_BASE_DATE})</p>
-          <p>예상 수익은 참고용이며, 실제 발급량·정산 금액은 환경부 심사 결과에 따라 달라질 수 있습니다.</p>
+          <p>KOC 참고가: {formatKRW(result.kcu_price_ref ?? 18000)}/tCO₂ ({PRICE_BASE_DATE})</p>
+          <p>예상 수익은 참고용이며, 실제 매각가는 시장 상황에 따라 변동됩니다. 실제 발급량·정산 금액은 환경부 심사 결과에 따라 달라질 수 있습니다.</p>
           {result.is_multi_equip && (
             <p>복수 설비 적용 시 중복 감산(×0.88)이 적용됩니다.</p>
           )}

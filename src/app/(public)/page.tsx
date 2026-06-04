@@ -23,7 +23,7 @@ const STATS = [
   { value: "₩0",    label: "선비용",      sub: "성공 후 수수료" },
   { value: "20%",   label: "성과 수수료", sub: "판매 대금 기준" },
   { value: "최대 5년", label: "소급 적용", sub: "2021년부터" },
-  { value: "16,000", label: "KOC 시장가", sub: "원/tCO₂ (25년)" },
+  { value: "18,000", label: "KOC 참고가", sub: "원/tCO₂ (26년 기준)" },
 ] as const;
 
 const STEPS = [
@@ -282,7 +282,7 @@ export default function LandingPage() {
             {
               icon: <TrendingUpIcon className="w-5 h-5 text-primary" />,
               title: "최적 매각 타이밍",
-              desc: "KOC 시장가를 모니터링해 최적 시점에 매각, 수익 극대화.",
+              desc: "KOC 참고가를 모니터링해 최적 시점에 매각, 수익 극대화.",
             },
           ].map(({ icon, title, desc }) => (
             <div key={title} className="flex gap-3 items-start bg-white rounded-2xl p-4 shadow-sm">
