@@ -20,14 +20,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <header className="bg-white border-b border-border shadow-sm sticky top-0 z-30">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            {/* HOOXI 로고 */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/hooxi_logo_dark.svg"
-              alt="HOOXI Partners"
-              width={70}
-              height={30}
-            />
+            {/* 브랜드 로고 */}
+            <span className="font-bold text-gray-900">탄소잇</span>
+            <span className="text-xs text-gray-400 ml-1">by 후시파트너스</span>
             <span className="text-slate-200">|</span>
             <nav className="flex items-center gap-4">
               <a href="/leads"          className="text-sm font-medium text-foreground hover:text-[#55b4a5] transition-colors">리드</a>

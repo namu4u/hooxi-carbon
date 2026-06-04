@@ -107,16 +107,10 @@ export default function LandingPage() {
         ref={heroRef}
         className="-mx-4 bg-gradient-to-br from-primary via-green-600 to-emerald-700 text-white px-4 pt-10 pb-12"
       >
-        {/* 브랜드 로고 (흰색 버전) */}
+        {/* 브랜드 로고 */}
         <div className="mb-6">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/hooxi_logo_white.svg"
-            alt="HOOXI Partners"
-            width={88}
-            height={38}
-            className="opacity-95"
-          />
+          <span className="font-bold text-white text-xl">탄소잇</span>
+          <span className="text-xs text-white/60 ml-1">by 후시파트너스</span>
         </div>
 
         {/* 헤드라인 */}
@@ -350,16 +344,10 @@ export default function LandingPage() {
       ══════════════════════════════════════════════════════════════════ */}
       <section className="-mx-4 bg-gradient-to-br from-primary to-green-700 text-white px-4 py-12">
         <div className="text-center">
-          {/* 흰색 로고 */}
+          {/* 브랜드 로고 */}
           <div className="flex justify-center mb-5">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/hooxi_logo_white.svg"
-              alt="HOOXI Partners"
-              width={72}
-              height={31}
-              className="opacity-80"
-            />
+            <span className="font-bold text-white text-xl">탄소잇</span>
+            <span className="text-xs text-white/60 ml-1 self-end mb-0.5">by 후시파트너스</span>
           </div>
           <h2 className="text-xl font-extrabold mb-2 leading-tight">
             지금 확인하지 않으면<br />기회를 놓칠 수 있습니다
@@ -385,15 +373,10 @@ export default function LandingPage() {
           FOOTER
       ══════════════════════════════════════════════════════════════════ */}
       <footer className="-mx-4 px-4 pt-8 pb-28 border-t-2 border-[#55b4a5]/30 bg-white">
-        {/* 로고 (검정 버전) */}
+        {/* 브랜드 로고 */}
         <div className="mb-5">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/hooxi_logo_dark.svg"
-            alt="HOOXI Partners"
-            width={88}
-            height={38}
-          />
+          <span className="font-bold text-gray-900">탄소잇</span>
+          <span className="text-xs text-gray-400 ml-1">by 후시파트너스</span>
         </div>
 
         {/* 연락처 */}
