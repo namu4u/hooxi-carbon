@@ -272,24 +272,28 @@ function RadioCard({
   return (
     <label
       className={[
-        "flex items-start gap-3 p-4 md:p-3 border rounded-xl cursor-pointer transition-colors",
+        // 모바일: 가로 배치 (라디오 왼쪽, 텍스트 오른쪽)
+        "flex items-start gap-3 p-4",
+        // 데스크탑 3열 그리드: 세로 중앙 정렬로 텍스트 공간 확보
+        "md:flex-col md:items-center md:text-center md:gap-2 md:p-3",
+        "border rounded-xl cursor-pointer transition-colors",
         checked   ? "border-primary bg-secondary"
                   : "border-border bg-white",
         disabled  ? "opacity-60 cursor-not-allowed" : "",
       ].join(" ")}
     >
+      <input type="radio" className="sr-only" checked={checked} onChange={onChange} disabled={disabled} />
       <div
         className={[
-          "w-5 h-5 rounded-full border-2 flex-shrink-0 mt-0.5 flex items-center justify-center",
+          "w-5 h-5 rounded-full border-2 flex-shrink-0 mt-0.5 md:mt-0 flex items-center justify-center",
           checked ? "border-primary" : "border-border",
         ].join(" ")}
       >
         {checked && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
       </div>
-      <input type="radio" className="sr-only" checked={checked} onChange={onChange} disabled={disabled} />
       <div>
-        <p className="text-sm font-medium">{label}</p>
-        <p className="text-xs text-muted-foreground mt-0.5 leading-tight">{desc}</p>
+        <p className="text-sm font-semibold break-keep">{label}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 leading-snug break-keep">{desc}</p>
       </div>
     </label>
   );
