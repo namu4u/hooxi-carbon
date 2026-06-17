@@ -28,16 +28,19 @@ const KCU_HISTORY_OPTIONS = [
 ] as const;
 
 const ETS_OPTIONS = [
-  { value: false,     label: "미해당",      desc: "ETS 할당 대상이 아닙니다" },
-  { value: "partial", label: "일부 해당",   desc: "일부만 ETS 할당 대상입니다" },
-  { value: true,      label: "전부 해당",   desc: "모든 설비가 ETS 할당 대상입니다" },
-] as const;
+  { value: "none" as const,    label: "미해당",      desc: "ETS 할당 대상이 아닙니다" },
+  { value: "partial" as const, label: "일부 해당",   desc: "일부만 ETS 할당 대상입니다" },
+  { value: "all" as const,     label: "전부 해당",   desc: "모든 설비가 ETS 할당 대상입니다" },
+];
 
 export default function DiagnosisStep2() {
   const router = useRouter();
   const { step1, step2, save, hydrated } = useDiagnosis();
   const [loading,   setLoading]   = useState(false);
   const [calcError, setCalcError] = useState<string | null>(null);
+  const [etsChoice, setEtsChoice] = useState<"none" | "partial" | "all">(
+    () => (step2?.etsAllocated ? "all" : "none")
+  );
 
   const {
     control, handleSubmit,
@@ -181,11 +184,14 @@ export default function DiagnosisStep2() {
                 <div className="space-y-2.5 md:space-y-0 md:grid md:grid-cols-3 md:gap-2">
                   {ETS_OPTIONS.map((opt) => (
                     <RadioCard
-                      key={String(opt.value)}
+                      key={opt.value}
                       label={opt.label}
                       desc={opt.desc}
-                      checked={field.value === (opt.value === "partial" ? false : opt.value)}
-                      onChange={() => field.onChange(opt.value === true)}
+                      checked={etsChoice === opt.value}
+                      onChange={() => {
+                        setEtsChoice(opt.value);
+                        field.onChange(opt.value === "all");
+                      }}
                       disabled={loading}
                     />
                   ))}

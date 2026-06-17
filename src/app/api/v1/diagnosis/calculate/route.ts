@@ -19,6 +19,25 @@ const ELEC_MID_KWH = [125_000, 1_250_000, 3_500_000, 7_500_000, 15_000_000] as c
 /** 종업원 규모 보정 계수 γ, tier 1~5 */
 const GAMMA = [0.7, 1.0, 1.3, 1.6, 2.0] as const;
 
+// DB 미적용 시 fallback (seed.sql + koc_price_ref 18000 반영)
+const FALLBACK_ALGO_PARAMS: Record<string, AlgoParam[]> = {
+  C: [
+    { equip_code: "LED_LIGHTING",   alpha: 0.000186, beta: 1.05, kcu_price_ref: 18000 },
+    { equip_code: "INVERTER_MOTOR", alpha: 0.000140, beta: 1.10, kcu_price_ref: 18000 },
+    { equip_code: "HEF_BOILER",     alpha: 0.000112, beta: 1.20, kcu_price_ref: 18000 },
+  ],
+  L: [
+    { equip_code: "LED_LIGHTING",   alpha: 0.000195, beta: 1.00, kcu_price_ref: 18000 },
+    { equip_code: "HVAC_UPGRADE",   alpha: 0.000130, beta: 1.15, kcu_price_ref: 18000 },
+  ],
+  G: [
+    { equip_code: "LED_LIGHTING",   alpha: 0.000200, beta: 0.98, kcu_price_ref: 18000 },
+  ],
+  H: [
+    { equip_code: "EV_FORKLIFT",    alpha: 0.000320, beta: 1.30, kcu_price_ref: 18000 },
+  ],
+};
+
 const MULTI_EQUIP_FACTOR = 0.88;   // 복수 설비 중복 감산율
 const CERT_SUCCESS_RATE  = 0.80;   // KCU 인증 성공률(보수적 추정)
 const FEE_RATE           = 0.20;   // 후시파트너스 성과 수수료
@@ -114,23 +133,21 @@ export async function POST(request: NextRequest) {
     .in("equip_code", body.equip_codes)
     .eq("eligible", true);
 
-  if (paramsError) {
-    console.error("[calculate] algo_params fetch:", paramsError.message);
-    return NextResponse.json<ApiResponse>(
-      { success: false, error: "파라미터 조회 실패", code: "PARAMS_FETCH_ERROR" },
-      { status: 500 }
-    );
-  }
+  let resolvedParams: AlgoParam[] | null = params ?? null;
 
-  if (!params || params.length === 0) {
-    return NextResponse.json<ApiResponse>(
-      {
-        success: false,
-        error: "해당 업종·설비 조합의 알고리즘 파라미터가 없습니다",
-        code: "PARAMS_NOT_FOUND",
-      },
-      { status: 422 }
-    );
+  if (paramsError || !resolvedParams || resolvedParams.length === 0) {
+    if (paramsError) console.warn("[calculate] algo_params DB unavailable, using fallback:", paramsError.message);
+
+    const fallback = (FALLBACK_ALGO_PARAMS[body.sector_code] ?? [])
+      .filter((p) => body.equip_codes.includes(p.equip_code));
+
+    if (fallback.length === 0) {
+      return NextResponse.json<ApiResponse>(
+        { success: false, error: "해당 업종·설비 조합의 알고리즘 파라미터가 없습니다", code: "PARAMS_NOT_FOUND" },
+        { status: 422 }
+      );
+    }
+    resolvedParams = fallback;
   }
 
   // ── 3. 적격성 판정 ─────────────────────────────────────────────────────────
@@ -155,7 +172,7 @@ export async function POST(request: NextRequest) {
   }
 
   // ── 4 ~ 9. 핵심 계산 ──────────────────────────────────────────────────────
-  const calc = computeKcu(body, params);
+  const calc = computeKcu(body, resolvedParams);
 
   // ── 10. 리드 스코어 계산 — 공유 lib 사용, 응답 미포함 ─────────────────────
   void computeLeadScore({
