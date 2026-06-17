@@ -241,7 +241,7 @@ export default function LandingPage() {
             <a href="#faq"          className="text-sm text-white/80 hover:text-white transition-colors">FAQ</a>
             <Link
               href="/diagnosis"
-              className="h-9 px-4 bg-white text-primary rounded-lg text-sm font-semibold hover:bg-green-50 transition-colors"
+              className="inline-flex items-center h-9 px-4 bg-white text-primary rounded-lg text-sm font-semibold hover:bg-green-50 transition-colors"
             >
               무료 진단
             </Link>
