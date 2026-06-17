@@ -150,11 +150,12 @@ export default function DiagnosisStep3() {
         <div className="w-full text-left space-y-3 mt-2">
           <h3 className="text-sm font-semibold text-foreground">앞으로의 절차</h3>
           {[
-            { step: "01", label: "컨설턴트 초기 미팅",  sub: "서비스 범위·조건 상세 협의" },
-            { step: "02", label: "위임 계약 체결",       sub: "디지털 서명, 선비용 0원" },
-            { step: "03", label: "서류·현장 검증",       sub: "후시파트너스가 전담 처리" },
-            { step: "04", label: "KOC 발급 및 판매",     sub: "환경부 승인 후 시장 매각" },
-            { step: "05", label: "수익 정산",            sub: "판매 대금의 80% 지급" },
+            { step: "01", label: "컨설턴트 초기 미팅",   sub: "서비스 범위·조건 상세 협의" },
+            { step: "02", label: "위임 계약 체결",        sub: "디지털 서명, 선비용 0원" },
+            { step: "03", label: "타당성 평가·사업 등록", sub: "방법론 검토, 환경부 승인(30일)" },
+            { step: "04", label: "모니터링·제3자 검증",  sub: "감축량 산정 및 제3자 기관 검증" },
+            { step: "05", label: "KOC 발급 및 판매",      sub: "인증 완료 후 탄소 시장 매각" },
+            { step: "06", label: "수익 정산",             sub: "판매 대금의 80% 지급" },
           ].map(({ step, label, sub }) => (
             <div key={step} className="flex gap-3">
               <span className="w-8 h-8 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center flex-shrink-0">
