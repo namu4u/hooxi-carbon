@@ -22,17 +22,45 @@
   --color-destructive: #ef4444;
   --color-destructive-foreground: #ffffff;
 
-  /* 모바일 우선: 기본 max-width */
   --max-width-mobile: 390px;
 
   --font-sans: var(--font-sans);
   --radius: 0.75rem;
 }
 
-/* 모바일 컨테이너 기본 레이아웃 */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* 레거시 호환 */
 .mobile-container {
   width: 100%;
   max-width: var(--max-width-mobile);
   margin-inline: auto;
   padding-inline: 1rem;
+}
+
+/* 반응형 섹션 내부 콘텐츠 래퍼 */
+.section-inner {
+  width: 100%;
+  max-width: 390px;
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 768px) {
+  .section-inner {
+    max-width: 1200px;
+    padding-inline: 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-inner {
+    padding-inline: 5rem;
+  }
 }

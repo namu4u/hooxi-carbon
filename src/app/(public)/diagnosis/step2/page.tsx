@@ -1,19 +1,18 @@
 "use client";
 
-// A-03: 기업 규모·KCU 이력 입력 + 백그라운드 calculate
+// A-03: 기업 규모·KCU 이력 입력 + 백그라운드 calculate — 반응형
 
 import { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useRouter } from "next/navigation";
-import { ChevronLeftIcon, LoaderCircleIcon } from "lucide-react";
+import { ChevronLeftIcon, LoaderCircleIcon, InfoIcon } from "lucide-react";
 
 import { DiagnosisProgress } from "@/components/diagnosis/DiagnosisProgress";
 import { useDiagnosis, type Step2Data } from "@/hooks/useDiagnosis";
 import { EMPLOYEE_TIERS } from "@/lib/diagnosis-data";
 
-// ── 스키마 ───────────────────────────────────────────────────────────────────
 const schema = z.object({
   employeeTier: z.number().int().min(1).max(5),
   kcuHistory:   z.enum(["none", "partial", "all"]),
@@ -29,16 +28,15 @@ const KCU_HISTORY_OPTIONS = [
 ] as const;
 
 const ETS_OPTIONS = [
-  { value: false, label: "미해당",  desc: "ETS 할당 대상이 아닙니다" },
-  { value: "partial", label: "일부 해당", desc: "일부만 ETS 할당 대상입니다" },
-  { value: true,  label: "전부 해당", desc: "모든 설비가 ETS 할당 대상입니다" },
+  { value: false,     label: "미해당",      desc: "ETS 할당 대상이 아닙니다" },
+  { value: "partial", label: "일부 해당",   desc: "일부만 ETS 할당 대상입니다" },
+  { value: true,      label: "전부 해당",   desc: "모든 설비가 ETS 할당 대상입니다" },
 ] as const;
 
-// ── 컴포넌트 ──────────────────────────────────────────────────────────────────
 export default function DiagnosisStep2() {
   const router = useRouter();
   const { step1, step2, save, hydrated } = useDiagnosis();
-  const [loading, setLoading] = useState(false);
+  const [loading,   setLoading]   = useState(false);
   const [calcError, setCalcError] = useState<string | null>(null);
 
   const {
@@ -53,7 +51,6 @@ export default function DiagnosisStep2() {
     },
   });
 
-  // Step1 없으면 처음으로
   useEffect(() => {
     if (hydrated && !step1) router.replace("/diagnosis");
   }, [hydrated, step1, router]);
@@ -99,7 +96,6 @@ export default function DiagnosisStep2() {
     <div>
       <DiagnosisProgress step={2} />
 
-      {/* 뒤로가기 */}
       <button
         type="button"
         onClick={() => router.back()}
@@ -113,120 +109,154 @@ export default function DiagnosisStep2() {
         정확한 수익 추정을 위해 기업 규모를 입력해주세요
       </p>
 
-      <form onSubmit={onSubmit} noValidate className="space-y-8">
-        {/* 종업원 수 */}
-        <div>
-          <label className="block text-sm font-medium text-foreground mb-2">
-            종업원 수 <span className="text-destructive">*</span>
-          </label>
-          <Controller
-            name="employeeTier"
-            control={control}
-            render={({ field }) => (
-              <select
-                value={field.value}
-                onChange={(e) => field.onChange(Number(e.target.value))}
-                className={fieldCls}
-              >
-                {EMPLOYEE_TIERS.map((t) => (
-                  <option key={t.value} value={t.value}>{t.label}</option>
-                ))}
-              </select>
-            )}
-          />
-        </div>
+      {/* 데스크탑: 2열 레이아웃 */}
+      <div className="md:grid md:grid-cols-[1fr_240px] md:gap-8 md:items-start">
 
-        {/* KCU 신청 이력 */}
-        <div>
-          <label className="block text-sm font-medium text-foreground mb-1">
-            KOC(탄소상쇄크레딧) 신청 이력 <span className="text-destructive">*</span>
-          </label>
-          <p className="text-xs text-muted-foreground mb-3">
-            이전에 KOC를 신청하거나 발급받은 이력이 있나요?
-          </p>
-          <Controller
-            name="kcuHistory"
-            control={control}
-            render={({ field }) => (
-              <div className="space-y-2.5">
-                {KCU_HISTORY_OPTIONS.map((opt) => (
-                  <RadioCard
-                    key={opt.value}
-                    label={opt.label}
-                    desc={opt.desc}
-                    checked={field.value === opt.value}
-                    onChange={() => field.onChange(opt.value)}
-                    disabled={loading}
-                  />
-                ))}
-              </div>
-            )}
-          />
-          {errors.kcuHistory && (
-            <p className="text-xs text-destructive mt-1.5">{errors.kcuHistory.message}</p>
-          )}
-        </div>
-
-        {/* ETS 할당 대상 */}
-        <div>
-          <label className="block text-sm font-medium text-foreground mb-1">
-            배출권거래제(ETS) 할당 대상 여부 <span className="text-destructive">*</span>
-          </label>
-          <p className="text-xs text-muted-foreground mb-3">
-            온실가스 배출권거래제에 할당된 업체인가요?
-          </p>
-          <Controller
-            name="etsAllocated"
-            control={control}
-            render={({ field }) => (
-              <div className="space-y-2.5">
-                {ETS_OPTIONS.map((opt) => (
-                  <RadioCard
-                    key={String(opt.value)}
-                    label={opt.label}
-                    desc={opt.desc}
-                    checked={field.value === (opt.value === "partial" ? false : opt.value)}
-                    onChange={() => field.onChange(opt.value === true)}
-                    disabled={loading}
-                  />
-                ))}
-              </div>
-            )}
-          />
-        </div>
-
-        {/* 에러 메시지 */}
-        {calcError && (
-          <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-xl text-sm text-destructive">
-            {calcError}
+        <form onSubmit={onSubmit} noValidate className="space-y-8">
+          {/* 종업원 수 */}
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">
+              종업원 수 <span className="text-destructive">*</span>
+            </label>
+            <Controller
+              name="employeeTier"
+              control={control}
+              render={({ field }) => (
+                <select
+                  value={field.value}
+                  onChange={(e) => field.onChange(Number(e.target.value))}
+                  className={fieldCls}
+                >
+                  {EMPLOYEE_TIERS.map((t) => (
+                    <option key={t.value} value={t.value}>{t.label}</option>
+                  ))}
+                </select>
+              )}
+            />
           </div>
-        )}
 
-        {/* CTA — 삼쩜삼 방식: 결과 먼저 확인 */}
-        <button
-          type="submit"
-          disabled={loading}
-          className="w-full h-14 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-colors bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-70"
-        >
-          {loading ? (
-            <>
-              <LoaderCircleIcon className="w-5 h-5 animate-spin" />
-              결과 계산 중…
-            </>
-          ) : (
-            "결과 먼저 확인하기 →"
+          {/* KCU 신청 이력 */}
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1">
+              KOC(탄소상쇄크레딧) 신청 이력 <span className="text-destructive">*</span>
+            </label>
+            <p className="text-xs text-muted-foreground mb-3">
+              이전에 KOC를 신청하거나 발급받은 이력이 있나요?
+            </p>
+            <Controller
+              name="kcuHistory"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-2.5 md:space-y-0 md:grid md:grid-cols-3 md:gap-2">
+                  {KCU_HISTORY_OPTIONS.map((opt) => (
+                    <RadioCard
+                      key={opt.value}
+                      label={opt.label}
+                      desc={opt.desc}
+                      checked={field.value === opt.value}
+                      onChange={() => field.onChange(opt.value)}
+                      disabled={loading}
+                    />
+                  ))}
+                </div>
+              )}
+            />
+            {errors.kcuHistory && (
+              <p className="text-xs text-destructive mt-1.5">{errors.kcuHistory.message}</p>
+            )}
+          </div>
+
+          {/* ETS 할당 대상 */}
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-1">
+              배출권거래제(ETS) 할당 대상 여부 <span className="text-destructive">*</span>
+            </label>
+            <p className="text-xs text-muted-foreground mb-3">
+              온실가스 배출권거래제에 할당된 업체인가요?
+            </p>
+            <Controller
+              name="etsAllocated"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-2.5 md:space-y-0 md:grid md:grid-cols-3 md:gap-2">
+                  {ETS_OPTIONS.map((opt) => (
+                    <RadioCard
+                      key={String(opt.value)}
+                      label={opt.label}
+                      desc={opt.desc}
+                      checked={field.value === (opt.value === "partial" ? false : opt.value)}
+                      onChange={() => field.onChange(opt.value === true)}
+                      disabled={loading}
+                    />
+                  ))}
+                </div>
+              )}
+            />
+          </div>
+
+          {calcError && (
+            <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-xl text-sm text-destructive">
+              {calcError}
+            </div>
           )}
-        </button>
 
-        <p className="text-center text-xs text-muted-foreground -mt-3">
-          개인정보 입력 전에 예상 수익을 먼저 확인할 수 있습니다
-        </p>
-      </form>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full h-14 rounded-xl font-semibold text-base flex items-center justify-center gap-2 transition-colors bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-70"
+          >
+            {loading ? (
+              <>
+                <LoaderCircleIcon className="w-5 h-5 animate-spin" />
+                결과 계산 중…
+              </>
+            ) : (
+              "결과 먼저 확인하기 →"
+            )}
+          </button>
+
+          <p className="text-center text-xs text-muted-foreground -mt-3">
+            개인정보 입력 전에 예상 수익을 먼저 확인할 수 있습니다
+          </p>
+        </form>
+
+        {/* 오른쪽 안내 패널 (데스크탑 전용) */}
+        <div className="hidden md:block sticky top-24 space-y-3">
+          <div className="border border-border rounded-2xl p-4 bg-white">
+            <div className="flex items-center gap-1.5 mb-2">
+              <InfoIcon className="w-4 h-4 text-primary" />
+              <p className="text-xs font-semibold text-foreground">왜 기업 규모를 묻나요?</p>
+            </div>
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
+              기업 규모(종업원 수)는 KOC 방법론별 기준 용량 산정에 영향을 미칩니다.
+              중소기업과 대기업의 인정 범위가 다를 수 있습니다.
+            </p>
+          </div>
+
+          <div className="border border-border rounded-2xl p-4 bg-white">
+            <div className="flex items-center gap-1.5 mb-2">
+              <InfoIcon className="w-4 h-4 text-primary" />
+              <p className="text-xs font-semibold text-foreground">ETS 할당이란?</p>
+            </div>
+            <p className="text-[11px] text-muted-foreground leading-relaxed">
+              온실가스 배출권거래제(K-ETS) 할당 기업은 일부 KOC 방법론 적용에
+              제한이 있을 수 있습니다. 해당 여부를 사업자등록증 및
+              환경부 고시에서 확인하실 수 있습니다.
+            </p>
+          </div>
+
+          <div className="p-3 bg-secondary rounded-xl">
+            <p className="text-[11px] text-secondary-foreground/80 text-center">
+              이 정보는 수익 추정에만 사용됩니다
+            </p>
+          </div>
+        </div>
+
+      </div>
     </div>
   );
 }
 
-// ── Radio 카드 컴포넌트 ───────────────────────────────────────────────────────
 function RadioCard({
   label, desc, checked, onChange, disabled,
 }: {
@@ -236,7 +266,7 @@ function RadioCard({
   return (
     <label
       className={[
-        "flex items-start gap-3 p-4 border rounded-xl cursor-pointer transition-colors",
+        "flex items-start gap-3 p-4 md:p-3 border rounded-xl cursor-pointer transition-colors",
         checked   ? "border-primary bg-secondary"
                   : "border-border bg-white",
         disabled  ? "opacity-60 cursor-not-allowed" : "",
@@ -250,16 +280,10 @@ function RadioCard({
       >
         {checked && <div className="w-2.5 h-2.5 rounded-full bg-primary" />}
       </div>
-      <input
-        type="radio"
-        className="sr-only"
-        checked={checked}
-        onChange={onChange}
-        disabled={disabled}
-      />
+      <input type="radio" className="sr-only" checked={checked} onChange={onChange} disabled={disabled} />
       <div>
         <p className="text-sm font-medium">{label}</p>
-        <p className="text-xs text-muted-foreground mt-0.5">{desc}</p>
+        <p className="text-xs text-muted-foreground mt-0.5 leading-tight">{desc}</p>
       </div>
     </label>
   );
